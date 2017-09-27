@@ -12,6 +12,9 @@ from io import StringIO
 from PIL import Image
 from collections import defaultdict
 from matplotlib import pyplot as plt
+
+sys.path.append("..")
+
 from utils import label_map_util
 from utils import visualization_utils as vis_util
 
@@ -19,7 +22,6 @@ import cv2
 cap = cv2.VideoCapture(0)
 
 # This is needed since the notebook is stored in the object_detection folder.
-sys.path.append("..")
 
 MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
 MODEL_FILE = MODEL_NAME + '.tar.gz'
