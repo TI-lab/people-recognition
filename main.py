@@ -91,14 +91,14 @@ IMAGE_SIZE = (12, 8)
 
 
 def photo_crop(image, boxes, i):
+    height, width, channels = image.shape
+    x1 = int(boxes[0][i][1] * width)
+    x2 = int(boxes[0][i][3] * width)
 
-    x1 = int(boxes[0][i][1] * image.cols)
-    x2 = int(boxes[0][i][3] * image.cols)
+    y1 = int(boxes[0][i][0] * height)
+    y2 = int(boxes[0][i][2] * height)
 
-    y1 = int(boxes[0][i][1] * image.rows)
-    y2 = int(boxes[0][i][3] * image.rows)
-
-    return photo_crop_rect(x1, y1, x2, y2)
+    return photo_crop_rect(image, x1, y1, x2, y2)
 
 
 def photo_crop_rect(image, x1, y1, x2, y2):
@@ -153,7 +153,7 @@ with detection_graph.as_default():
                         cv2.imwrite(
                             "/media/hu/pics/" + time_str + '.png',
                             photo_crop(
-                                image,
+                                image_copy,
                                 boxes,
                                 i
                             )
