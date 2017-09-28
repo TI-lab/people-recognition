@@ -89,6 +89,22 @@ TEST_IMAGE_PATHS = [os.path.join(
 # Size, in inches, of the output images.
 IMAGE_SIZE = (12, 8)
 
+
+def photo_crop(image, boxes, i):
+
+    x1 = int(boxes[0][i][1] * image.cols)
+    x2 = int(boxes[0][i][3] * image.cols)
+
+    y1 = int(boxes[0][i][1] * image.rows)
+    y2 = int(boxes[0][i][3] * image.rows)
+
+    return photo_crop_rect(x1, y1, x2, y2)
+
+
+def photo_crop_rect(image, x1, y1, x2, y2):
+    return image[y1:y2, x1:x2]
+
+
 with detection_graph.as_default():
     with tf.Session(graph=detection_graph) as sess:
         while True:
@@ -136,7 +152,11 @@ with detection_graph.as_default():
                         time_str = str(datetime.datetime.utcnow())
                         cv2.imwrite(
                             "/media/hu/pics/" + time_str + '.png',
-                            image_copy
+                            photo_crop(
+                                image,
+                                boxes,
+                                i
+                            )
                         )
 
             cv2.imshow('object detection', cv2.resize(image_np, (800, 600)))
