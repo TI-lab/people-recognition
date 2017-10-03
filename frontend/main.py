@@ -2,6 +2,7 @@ import numpy as np
 import serial
 import cv2
 import threading  # :C
+import datetime
 
 
 global g_image  # :C
@@ -22,8 +23,12 @@ serial_port = serial.Serial('/dev/ttyUSB0')
 
 
 def handle_data(data):
-    print(data)
-    cv2.imshow('hi', g_image)
+
+    if len(data) == 1:
+        cv2.imwrite(
+            '../data/' + str(data) + " " + str(datetime.datetime.now()),
+            g_image
+        )
 
 
 def read_from_port(ser):
